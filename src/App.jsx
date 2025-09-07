@@ -6,10 +6,10 @@
 //    npm install framer-motion lottie-react lucide-react
 // 4) Replace placeholder image URLs and Lottie URLs with your own assets for production.
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lottie from 'lottie-react';
-import { ShoppingCart, Search, Heart, X } from 'lucide-react';
+import { ShoppingCart, Search, Heart, X, Store, User } from 'lucide-react';
 
 // --- Mock data ---
 const products = [
@@ -29,7 +29,38 @@ export default function App() {
   const [cart, setCart] = useState([]);
   const [selected, setSelected] = useState(null);
   const [showCart, setShowCart] = useState(false);
+  const [pincode, setPincode] = useState('');
+  const [showPincodeModal, setShowPincodeModal] = useState(false);
   const filtered = products.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
+
+  // Hydrate persisted state
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem('jb_cart');
+      if (savedCart) setCart(JSON.parse(savedCart));
+    } catch {}
+    try {
+      const savedPin = localStorage.getItem('jb_pincode');
+      if (savedPin) setPincode(savedPin);
+    } catch {}
+  }, []);
+
+  // Persist cart changes
+  useEffect(() => {
+    try { localStorage.setItem('jb_cart', JSON.stringify(cart)); } catch {}
+  }, [cart]);
+
+  function handleSavePincode(code) {
+    setPincode(code);
+    try { localStorage.setItem('jb_pincode', code); } catch {}
+    setShowPincodeModal(false);
+  }
+
+  function submitSearch() {
+    // In a real app, navigate to a results page. For now just keep filter behavior.
+    // eslint-disable-next-line no-console
+    console.log('Search submit:', query);
+  }
 
   function addToCart(product) {
     setCart(prev => {
@@ -55,32 +86,50 @@ export default function App() {
       </div>
 
       {/* NAV */}
-      <nav className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="bg-white rounded-full p-2 shadow-md flex items-center gap-3">
-            <img src="/logo.png" alt="Jewelbellery logo" className="h-12 w-12 rounded-full object-contain" />
-            <div className="hidden md:block">
-              <div className="text-xl font-[600]" style={{fontFamily:'Playfair Display'}}>Jewelbellery</div>
-              <div className="text-xs text-gray-500">Jewellery at your Doorstep</div>
+      <nav className="max-w-7xl mx-auto px-6 py-5 grid grid-cols-12 items-center gap-4">
+        {/* Left: Logo + delivery pill */}
+        <div className="col-span-12 md:col-span-3 flex items-center gap-4">
+          <img src="/logo.png" alt="Jewelbellery" className="h-10 w-10 rounded-full object-contain" />
+          <button onClick={() => setShowPincodeModal(true)} className="hidden md:flex items-center gap-3 border border-rose-200 bg-rose-50/60 text-gray-700 rounded-xl px-4 py-2">
+            <span className="text-rose-500">📍</span>
+            <div className="leading-tight text-left">
+              <div className="text-sm font-medium">{pincode ? `Deliver to ${pincode}` : 'Where to Deliver?'}</div>
+              <div className="text-xs text-gray-500">{pincode ? 'Change Pincode ▾' : 'Update Delivery Pincode ▾'}</div>
             </div>
-          </div>
+          </button>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="relative hidden md:block">
+        {/* Center: Big search */}
+        <div className="col-span-12 md:col-span-6">
+          <div className="relative">
             <input
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search rings, pendants, collections..."
-              className="pl-10 pr-4 py-2 rounded-full shadow-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-200"
+              placeholder='Search "Bracelets"'
+              onKeyDown={(e) => { if (e.key === 'Enter') submitSearch(); }}
+              className="w-full pl-4 pr-12 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-200"
             />
-            <div className="absolute left-3 top-2.5 text-gray-500"><Search size={16} /></div>
+            <button onClick={submitSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+              <Search size={18} />
+            </button>
           </div>
+        </div>
 
-          <button onClick={() => setShowCart(true)} className="relative bg-white p-2 rounded-xl shadow hover:scale-105 transition-transform">
-            <ShoppingCart />
+        {/* Right: Icons with labels */}
+        <div className="col-span-12 md:col-span-3 flex items-center justify-end gap-6 text-xs">
+          <div className="hidden md:flex items-center gap-2 text-gray-700">
+            <Store size={20} /> <span className="tracking-wide">STORES</span>
+          </div>
+          <div className="hidden md:flex items-center gap-2 text-gray-700">
+            <User size={20} /> <span className="tracking-wide">ACCOUNT</span>
+          </div>
+          <div className="hidden md:flex items-center gap-2 text-gray-700">
+            <Heart size={20} /> <span className="tracking-wide">WISHLIST</span>
+          </div>
+          <button onClick={() => setShowCart(true)} className="relative flex items-center gap-2 text-gray-700">
+            <ShoppingCart size={20} /> <span className="tracking-wide hidden md:inline">CART</span>
             {cart.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-brand-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{cart.length}</span>
+              <span className="absolute -top-2 -right-3 bg-brand-600 text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center">{cart.length}</span>
             )}
           </button>
         </div>
@@ -199,6 +248,30 @@ export default function App() {
                     <button className="px-6 py-3 border rounded-full" onClick={() => alert('Added to wishlist (demo)')}>Wishlist</button>
                   </div>
                 </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Pincode modal */}
+      <AnimatePresence>
+        {showPincodeModal && (
+          <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <div className="absolute inset-0 bg-black/40" onClick={() => setShowPincodeModal(false)} />
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+              <div className="text-lg font-semibold mb-2">Update Delivery Pincode</div>
+              <div className="text-sm text-gray-600 mb-4">Enter your area pincode to check availability and delivery time.</div>
+              <div className="flex gap-2">
+                <input
+                  inputMode="numeric"
+                  maxLength={6}
+                  value={pincode}
+                  onChange={(e) => setPincode(e.target.value.replace(/[^0-9]/g, '').slice(0,6))}
+                  className="flex-1 px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-200"
+                  placeholder="e.g. 560001"
+                />
+                <button onClick={() => handleSavePincode(pincode)} className="px-4 py-2 rounded-lg bg-brand-600 text-white">Save</button>
               </div>
             </motion.div>
           </motion.div>
