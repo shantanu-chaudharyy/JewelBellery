@@ -61,7 +61,7 @@ export default function App() {
             <img src="/logo.png" alt="Jewelbellery logo" className="h-12 w-12 rounded-full object-contain" />
             <div className="hidden md:block">
               <div className="text-xl font-[600]" style={{fontFamily:'Playfair Display'}}>Jewelbellery</div>
-              <div className="text-xs text-gray-500">Your Premium Jewellery At Your Doorstep</div>
+              <div className="text-xs text-gray-500">Jewellery at your Doorstep</div>
             </div>
           </div>
         </div>
