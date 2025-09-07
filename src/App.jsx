@@ -48,15 +48,20 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-amber-50 text-gray-800">
+    <div className="min-h-screen bg-white text-gray-800">
+      {/* Promo bar */}
+      <div className="w-full bg-brand-50 text-brand-700 text-sm py-2 text-center border-b border-brand-100">
+        Flat 30% on Silver Jewellery. Use: <span className="font-semibold">GRAND30</span>
+      </div>
+
       {/* NAV */}
-      <nav className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="bg-white rounded-full p-2 shadow-md flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-yellow-400 flex items-center justify-center text-white font-bold">JB</div>
+          <div className="bg-white rounded-full p-2 shadow-md flex items-center gap-3">
+            <img src="/logo.png" alt="Jewelbellery logo" className="h-12 w-12 rounded-full object-contain" />
             <div className="hidden md:block">
-              <div className="text-lg font-semibold">JewelBellery</div>
-              <div className="text-xs text-gray-500">Fine jewelry & handcrafted pieces</div>
+              <div className="text-xl font-[600]" style={{fontFamily:'Playfair Display'}}>Jewelbellery</div>
+              <div className="text-xs text-gray-500">Your Premium Jewellery At Your Doorstep</div>
             </div>
           </div>
         </div>
@@ -66,29 +71,43 @@ export default function App() {
             <input
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search jewelry, stones, collections..."
-              className="pl-10 pr-4 py-2 rounded-full shadow-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
+              placeholder="Search rings, pendants, collections..."
+              className="pl-10 pr-4 py-2 rounded-full shadow-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-200"
             />
-            <div className="absolute left-3 top-2.5"><Search size={16} /></div>
+            <div className="absolute left-3 top-2.5 text-gray-500"><Search size={16} /></div>
           </div>
 
           <button onClick={() => setShowCart(true)} className="relative bg-white p-2 rounded-xl shadow hover:scale-105 transition-transform">
             <ShoppingCart />
             {cart.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{cart.length}</span>
+              <span className="absolute -top-1 -right-1 bg-brand-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{cart.length}</span>
             )}
           </button>
         </div>
       </nav>
 
+      {/* Categories strip */}
+      <div className="w-full border-y bg-white">
+        <div className="max-w-7xl mx-auto px-6 overflow-x-auto">
+          <div className="flex gap-6 text-sm py-3 whitespace-nowrap">
+            <button className="hover:text-brand-700">Shop by Category</button>
+            <button className="hover:text-brand-700">Gold with Lab Diamonds</button>
+            <button className="hover:text-brand-700">Gift Store</button>
+            <button className="hover:text-brand-700">Men's Jewellery</button>
+            <button className="hover:text-brand-700">Latest Collections</button>
+            <button className="hover:text-brand-700">More at JB</button>
+          </div>
+        </div>
+      </div>
+
       {/* HERO */}
-      <header className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <header className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <motion.div initial={{ x: -40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.6 }}>
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">Timeless jewelry, thoughtfully crafted.</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight" style={{fontFamily:'Playfair Display'}}>Timeless jewellery, thoughtfully crafted.</h1>
           <p className="mt-4 text-gray-600">Discover artisan rings, necklaces and bracelets — curated for special moments and everyday shine.</p>
           <div className="mt-6 flex gap-3">
-            <button className="px-6 py-3 bg-gradient-to-r from-pink-500 to-yellow-400 rounded-full text-white font-semibold shadow-lg hover:scale-105 transform transition">Shop Collections</button>
-            <button onClick={() => setSelected(products[0])} className="px-6 py-3 border rounded-full">Quick look</button>
+            <button className="px-6 py-3 bg-gradient-to-r from-brand-600 to-accent-500 rounded-full text-white font-semibold shadow-lg hover:scale-105 transform transition">Shop Collections</button>
+            <button onClick={() => setSelected(products[0])} className="px-6 py-3 border rounded-full border-gray-300">Quick look</button>
           </div>
 
           <div className="mt-6 flex gap-4">
@@ -97,9 +116,9 @@ export default function App() {
         </motion.div>
 
         <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.6 }} className="relative">
-          <div className="rounded-2xl overflow-hidden shadow-2xl">
+          <div className="rounded-[1.5rem] overflow-hidden shadow-2xl bg-gradient-to-br from-brand-50 via-white to-accent-100 border border-brand-100">
             {/* Lottie animation layered on a soft card */}
-            <div className="relative bg-white p-6 flex items-center justify-center">
+            <div className="relative bg-white/70 backdrop-blur p-6 flex items-center justify-center">
               <div className="w-full h-64 md:h-80">
                 <Lottie animationData={null} path={lottieUrl} />
               </div>
@@ -109,15 +128,15 @@ export default function App() {
       </header>
 
       {/* PRODUCT GRID */}
-      <main className="max-w-6xl mx-auto px-6 py-12">
+      <main className="max-w-7xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">Featured</h2>
+          <h2 className="text-2xl font-bold" style={{fontFamily:'Playfair Display'}}>Featured</h2>
           <div className="text-sm text-gray-500">Hand-picked pieces</div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filtered.map(product => (
-            <motion.div key={product.id} whileHover={{ translateY: -6 }} className="bg-white rounded-2xl p-4 shadow hover:shadow-xl transition-shadow">
+            <motion.div key={product.id} whileHover={{ translateY: -6 }} className="bg-white rounded-[1.25rem] p-4 shadow hover:shadow-xl transition-shadow border border-gray-100">
               <div className="aspect-[4/3] rounded-xl overflow-hidden">
                 <img src={product.img} alt={product.name} className="w-full h-full object-cover" />
               </div>
@@ -127,7 +146,7 @@ export default function App() {
                   <div className="text-sm text-gray-500">$ {product.price}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => addToCart(product)} className="p-2 rounded-lg bg-pink-50 hover:bg-pink-100">
+                  <button onClick={() => addToCart(product)} className="p-2 rounded-lg bg-brand-50 hover:bg-brand-100 text-brand-700">
                     <ShoppingCart size={16} />
                   </button>
                   <button onClick={() => setSelected(product)} className="p-2 rounded-lg bg-gray-50 hover:bg-gray-100">
@@ -141,7 +160,7 @@ export default function App() {
       </main>
 
       {/* FOOTER */}
-      <footer className="max-w-6xl mx-auto px-6 py-10 text-sm text-gray-600">
+      <footer className="max-w-7xl mx-auto px-6 py-12 text-sm text-gray-600 border-t">
         <div className="flex flex-col md:flex-row md:justify-between gap-6">
           <div>
             <div className="font-semibold">JewelBellery</div>
@@ -173,10 +192,10 @@ export default function App() {
                 </div>
                 <div>
                   <div className="text-2xl font-bold">{selected.name}</div>
-                  <div className="text-pink-600 text-xl mt-2">$ {selected.price}</div>
+                  <div className="text-brand-600 text-xl mt-2">$ {selected.price}</div>
                   <p className="mt-4 text-gray-600">A refined piece inspired by classic forms and modern sensibility. Perfect for gifting or everyday elegance.</p>
                   <div className="mt-6 flex gap-3">
-                    <button onClick={() => { addToCart(selected); setSelected(null); }} className="px-6 py-3 bg-gradient-to-r from-pink-500 to-yellow-400 text-white rounded-full font-semibold">Add to cart</button>
+                    <button onClick={() => { addToCart(selected); setSelected(null); }} className="px-6 py-3 bg-gradient-to-r from-brand-600 to-accent-500 text-white rounded-full font-semibold">Add to cart</button>
                     <button className="px-6 py-3 border rounded-full" onClick={() => alert('Added to wishlist (demo)')}>Wishlist</button>
                   </div>
                 </div>
