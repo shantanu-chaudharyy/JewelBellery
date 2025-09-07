@@ -86,7 +86,7 @@ export default function App() {
       </div>
 
       {/* NAV */}
-      <nav className="max-w-7xl mx-auto px-6 py-5 grid grid-cols-12 items-center gap-4">
+      <nav className="max-w-7xl mx-auto px-6 py-5 grid grid-cols-12 items-center gap-6">
         {/* Left: Logo + delivery pill */}
         <div className="col-span-12 md:col-span-3 flex items-center gap-4">
           <img src="/logo.png" alt="Jewelbellery" className="h-10 w-10 rounded-full object-contain" />
@@ -116,7 +116,7 @@ export default function App() {
         </div>
 
         {/* Right: Icons with labels */}
-        <div className="col-span-12 md:col-span-3 relative z-10 flex items-center justify-end gap-6 text-xs">
+        <div className="col-span-12 md:col-span-3 relative z-0 ml-1 md:ml-4 flex items-center justify-end gap-6 text-xs">
           <button type="button" onClick={() => alert('Stores locator coming soon')} className="hidden md:flex items-center gap-2 text-gray-700 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-200 rounded-lg px-2 py-1">
             <Store size={20} /> <span className="tracking-wide">STORES</span>
           </button>
