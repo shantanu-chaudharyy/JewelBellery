@@ -101,7 +101,7 @@ export default function App() {
 
         {/* Center: Big search */}
         <div className="col-span-12 md:col-span-6">
-          <div className="relative">
+          <div className="relative z-0">
             <input
               value={query}
               onChange={e => setQuery(e.target.value)}
@@ -116,17 +116,17 @@ export default function App() {
         </div>
 
         {/* Right: Icons with labels */}
-        <div className="col-span-12 md:col-span-3 flex items-center justify-end gap-6 text-xs">
-          <div className="hidden md:flex items-center gap-2 text-gray-700">
+        <div className="col-span-12 md:col-span-3 relative z-10 flex items-center justify-end gap-6 text-xs">
+          <button type="button" onClick={() => alert('Stores locator coming soon')} className="hidden md:flex items-center gap-2 text-gray-700 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-200 rounded-lg px-2 py-1">
             <Store size={20} /> <span className="tracking-wide">STORES</span>
-          </div>
-          <div className="hidden md:flex items-center gap-2 text-gray-700">
+          </button>
+          <button type="button" onClick={() => alert('Account coming soon')} className="hidden md:flex items-center gap-2 text-gray-700 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-200 rounded-lg px-2 py-1">
             <User size={20} /> <span className="tracking-wide">ACCOUNT</span>
-          </div>
-          <div className="hidden md:flex items-center gap-2 text-gray-700">
+          </button>
+          <button type="button" onClick={() => alert('Wishlist coming soon')} className="hidden md:flex items-center gap-2 text-gray-700 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-200 rounded-lg px-2 py-1">
             <Heart size={20} /> <span className="tracking-wide">WISHLIST</span>
-          </div>
-          <button onClick={() => setShowCart(true)} className="relative flex items-center gap-2 text-gray-700">
+          </button>
+          <button type="button" onClick={() => setShowCart(true)} className="relative flex items-center gap-2 text-gray-700 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-200 rounded-lg px-2 py-1">
             <ShoppingCart size={20} /> <span className="tracking-wide hidden md:inline">CART</span>
             {cart.length > 0 && (
               <span className="absolute -top-2 -right-3 bg-brand-600 text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center">{cart.length}</span>
